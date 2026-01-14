@@ -1,4 +1,20 @@
-resource "azurerm_resource_group" "rg-b10" {
-  name     = "rg21"
-  location = "eastus"
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+        stage('Deploy') {
+            steps {
+               sh 'terraform apply -auto-approve'
+            }
+        }
+    }
 }
